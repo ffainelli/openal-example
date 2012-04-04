@@ -1,0 +1,1060 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
+<title>OpenAL short example</title>
+<style type="text/css">
+/* Sans-serif font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+div#toctitle,
+span#author, span#revnumber, span#revdate, span#revremark,
+div#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+/* Serif font. */
+div.sectionbody {
+  font-family: Georgia,"Times New Roman",Times,serif;
+}
+
+/* Monospace font. */
+tt {
+  font-size: inherit;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+tt {
+  font-size: inherit;
+  color: navy;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+span#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+span#email {
+}
+span#revnumber, span#revdate, span#revremark {
+}
+
+div#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+div#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+div#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+div#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #777777;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  div#footer-badges { display: none; }
+}
+
+div#toc {
+  margin-bottom: 2.5em;
+}
+
+div#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes();}
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([2-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  var cont = document.getElementById("content");
+  var noteholder = document.getElementById("footnotes");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      // Use [\s\S] in place of . so multi-line matches work.
+      // Because JavaScript has no s (dotall) regex flag.
+      note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      spans[i].innerHTML =
+        "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+        "' title='View footnote' class='footnote'>" + n + "</a>]";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+}
+
+}
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>OpenAL short example</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>I have recently had the need to play with OpenAL and despite the various
+number of examples available on the Internet, I found most of them either
+incomplete, inexact, but mostly non-working as-is. I will let you know why
+later, but for the moment, I think it is better to start with an example
+to better understand in which traps you can fall (like I did) and understand
+this basic OpenAL example so you can eventually build more complex software
+using it.</p></div>
+<div class="paragraph"><p>If you want to jump directly to the example code, it is <a href="http://fixme/link/">here</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_is_openal_about">What is OpenAL about?</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>OpenAL is the audio counterpart of OpenGL for graphics and as such defines
+a standard and portable API to build audio applications on top of it. The
+API covers both playback and capture use cases.</p></div>
+<div class="sect2">
+<h3 id="_implementations">Implementations</h3>
+<div class="paragraph"><p>There are various implementations of OpenAL in the wild, the one being
+used in this example is called
+<a href="http://kcat.strangesoft.net/openal.html">OpenAL Soft</a>. This implementation
+is available for most Unices and Linux systems.</p></div>
+<div class="paragraph"><p>Eventually you can use the OpenAL utilities library (alut) which provides
+a set of functions to help you in with some simple tasks.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_key_concepts">Key concepts</h3>
+<div class="paragraph"><p>Since OpenAL was specified much like OpenGL was, there are key concepts
+directly inherited from OpenGL, in particular:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+the API naming convention follows the OpenGL one
+</p>
+</li>
+<li>
+<p>
+there is a current context to create and use for your scenes lifetime
+</p>
+</li>
+<li>
+<p>
+"rendering" audio is done in an audio scene (think about pipelining commands
+  as well as rendering asynchronously)
+</p>
+</li>
+<li>
+<p>
+the API deals with audio streams (understand, raw PCM format) not with
+  audio codecs
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>We will get back to these concepts later because they are crucial to
+understand why our example might or might not work out of the box.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_objects">Objects</h3>
+<div class="paragraph"><p>Since OpenAL is about audio, it also introduces new concepts, in particular:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+the listener object
+</p>
+</li>
+<li>
+<p>
+the source object
+</p>
+</li>
+<li>
+<p>
+the buffer object
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Each of these different objects have properties which can be set with their
+respective API (al*Object*).</p></div>
+<div class="paragraph"><p>It is not mandatory to define all of these objects, in particular the listener
+since there is a default listener.</p></div>
+<div class="paragraph"><p>The source and buffer objects need however explicit initialisation and
+manipulation.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_let_8217_s_get_started">Let&#8217;s get started</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Now let&#8217;s start with a short example which plays back a WAV file to a playback
+device.</p></div>
+<div class="sect2">
+<h3 id="_device_opening">Device opening</h3>
+<div class="paragraph"><p>The very first thing to do is to open a handle to a device. This is done like
+this:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">#include</span></span> <span style="color: #FF0000">&lt;AL/al.h&gt;</span>
+<span style="font-weight: bold"><span style="color: #000080">#include</span></span> <span style="color: #FF0000">&lt;AL/alc.h&gt;</span>
+<span style="color: #990000">...</span>
+<span style="color: #008080">ALCdevice</span> <span style="color: #990000">*</span>device<span style="color: #990000">;</span>
+
+device <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">alcOpenDevice</span></span><span style="color: #990000">(</span>NULL<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(!</span>device<span style="color: #990000">)</span>
+        <span style="font-style: italic"><span style="color: #9A1900">// handle errors</span></span></tt></pre></div></div>
+<div class="paragraph"><p>Here we open a handle to the default device. You can specify explicitely which
+device you want to open by using its name as an argument to alcOpenDevice().
+Below is an example about how to enumerate the list of available devices</p></div>
+</div>
+<div class="sect2">
+<h3 id="_device_enumeration">Device enumeration</h3>
+<div class="paragraph"><p>Prior to attempting an enumeration, Open AL provides an extension querying
+mechanism which allows you to know whether the runtime Open AL implementation
+supports a specific extension. In our case, we want to check whether Open AL
+supports enumerating devices:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #008080">ALboolean</span> enumeration<span style="color: #990000">;</span>
+
+enumeration <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">alcIsExtensionPresent</span></span><span style="color: #990000">(</span>NULL<span style="color: #990000">,</span> <span style="color: #FF0000">"ALC_ENUMERATION_EXT"</span><span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>enumeration <span style="color: #990000">==</span> AL_FALSE<span style="color: #990000">)</span>
+        <span style="font-style: italic"><span style="color: #9A1900">// enumeration not supported</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">else</span></span>
+        <span style="font-style: italic"><span style="color: #9A1900">// enumeration supported</span></span></tt></pre></div></div>
+<div class="paragraph"><p>Here we pass NULL as argument to FIXME</p></div>
+</div>
+<div class="sect2">
+<h3 id="_retrieving_the_device_list">Retrieving the device list</h3>
+<div class="paragraph"><p>If the enumeration extension is supported, we can procede with listing the audio
+devices. If the enumeration is not supported listing audio devices only returns
+the default device, which is expected in order not to break any application.</p></div>
+<div class="paragraph"><p>The OpenAL specification says that the list of devices is organized as a string
+devices are separated with a NULL character and the list is terminated by two
+NULL characters, we will define a helper for parsing the list of devices.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">static</span></span> <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">list_audio_devices</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">const</span></span> <span style="color: #008080">ALCchar</span> <span style="color: #990000">*</span>devices<span style="color: #990000">)</span>
+<span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">const</span></span> <span style="color: #008080">ALCchar</span> <span style="color: #990000">*</span>device <span style="color: #990000">=</span> devices<span style="color: #990000">,</span> <span style="color: #990000">*</span>next <span style="color: #990000">=</span> devices <span style="color: #990000">+</span> <span style="color: #993399">1</span><span style="color: #990000">;</span>
+        <span style="color: #008080">size_t</span> len <span style="color: #990000">=</span> <span style="color: #993399">0</span><span style="color: #990000">;</span>
+
+        <span style="font-weight: bold"><span style="color: #000000">fprintf</span></span><span style="color: #990000">(</span>stdout<span style="color: #990000">,</span> <span style="color: #FF0000">"Devices list:</span><span style="color: #CC33CC">\n</span><span style="color: #FF0000">"</span><span style="color: #990000">);</span>
+        <span style="font-weight: bold"><span style="color: #000000">fprintf</span></span><span style="color: #990000">(</span>stdout<span style="color: #990000">,</span> <span style="color: #FF0000">"----------</span><span style="color: #CC33CC">\n</span><span style="color: #FF0000">"</span><span style="color: #990000">);</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">while</span></span> <span style="color: #990000">(</span>device <span style="color: #990000">&amp;&amp;</span> <span style="color: #990000">*</span>device <span style="color: #990000">!=</span> <span style="color: #FF0000">'</span><span style="color: #CC33CC">\0</span><span style="color: #FF0000">'</span> <span style="color: #990000">&amp;&amp;</span> next <span style="color: #990000">&amp;&amp;</span> <span style="color: #990000">*</span>next <span style="color: #990000">!=</span> <span style="color: #FF0000">'</span><span style="color: #CC33CC">\0</span><span style="color: #FF0000">'</span><span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+                <span style="font-weight: bold"><span style="color: #000000">fprintf</span></span><span style="color: #990000">(</span>stdout<span style="color: #990000">,</span> <span style="color: #FF0000">"%s</span><span style="color: #CC33CC">\n</span><span style="color: #FF0000">"</span><span style="color: #990000">,</span> device<span style="color: #990000">);</span>
+                len <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">strlen</span></span><span style="color: #990000">(</span>device<span style="color: #990000">);</span>
+                device <span style="color: #990000">+=</span> <span style="color: #990000">(</span>len <span style="color: #990000">+</span> <span style="color: #993399">1</span><span style="color: #990000">);</span>
+                next <span style="color: #990000">+=</span> <span style="color: #990000">(</span>len <span style="color: #990000">+</span> <span style="color: #993399">2</span><span style="color: #990000">);</span>
+        <span style="color: #FF0000">}</span>
+        <span style="font-weight: bold"><span style="color: #000000">fprintf</span></span><span style="color: #990000">(</span>stdout<span style="color: #990000">,</span> <span style="color: #FF0000">"----------</span><span style="color: #CC33CC">\n</span><span style="color: #FF0000">"</span><span style="color: #990000">);</span>
+<span style="color: #FF0000">}</span>
+
+<span style="font-weight: bold"><span style="color: #000000">list_audio_devices</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">alcGetString</span></span><span style="color: #990000">(</span>NULL<span style="color: #990000">,</span> ALC_DEVICE_SPECIFIER<span style="color: #990000">));</span></tt></pre></div></div>
+<div class="paragraph"><p>Passsing NULL to alcGetString() indicates that we do not want the device
+specifier of a particular device, but all of them.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_error_stack_initialisation_and_usage">Error stack initialisation and usage</h3>
+<div class="paragraph"><p>One big aspect of OpenAL, inherited from OpenGL is the error stack. This error
+stack is to be manipulated with caution, otherwise you will get errors which
+do not correspond to your latest al*() call, and this will be definitively
+puzzling while troobleshooting.</p></div>
+<div class="paragraph"><p>Fortunately the error stack has a depth of 1 error, so you want have to pop
+all the errors, just the last one. Also note that success (AL_NO_ERROR) is also
+pushed to the error stack. This means that every call to al*() must be
+consequently checked, but you should check all return values anyway.</p></div>
+<div class="paragraph"><p>The very first thing to do, prior to any al*() call, is to reset the error
+stack. This is done by issuing a dummy read like this:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">alGetErrror</span></span><span style="color: #990000">();</span></tt></pre></div></div>
+<div class="paragraph"><p>retrieving an error, is done pretty much the same way. If you want to</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #008080">ALCenum</span> error<span style="color: #990000">;</span>
+
+error <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">alGetError</span></span><span style="color: #990000">();</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>error <span style="color: #990000">!=</span> AL_NO_ERROR<span style="color: #990000">)</span>
+        <span style="font-style: italic"><span style="color: #9A1900">// something wrong happened</span></span></tt></pre></div></div>
+<div class="paragraph"><p>Would you print a litteral error string (ala strerror()) that you would need to
+use alut&#8217;s alutGetErrorString() to do that.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_context_creation_and_initialization">Context creation and initialization</h3>
+<div class="paragraph"><p>In order to render an audio scene, we need to create and initialize a context
+for this. We do this by the following calls:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #008080">ALCcontext</span> <span style="color: #990000">*</span>context<span style="color: #990000">;</span>
+
+context <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">alcCreateContext</span></span><span style="color: #990000">(</span>device<span style="color: #990000">,</span> NULL<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(!</span><span style="font-weight: bold"><span style="color: #000000">alcMakeContextCurrent</span></span><span style="color: #990000">(</span>context<span style="color: #990000">))</span>
+        <span style="font-style: italic"><span style="color: #9A1900">// failed to make context current</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">// test for errors here using alGetError();</span></span></tt></pre></div></div>
+<div class="paragraph"><p>There is nothing specific for our context, so NULL is specified as argument.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_definining_and_configuring_the_listener">Definining and configuring the listener</h3>
+<div class="paragraph"><p>Since there is a default listener, we do not need to explicitely create one
+because it is already present in our scene. This actually makes sense because
+audio is to be heard by a listener anyway. If the listener actually does not
+hear it, it is because of the source properties (source too far away &#8230;).</p></div>
+<div class="paragraph"><p>If we want to define some of our listener properties however, we can proceed like
+this:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #008080">ALfloat</span> listenerOri<span style="color: #990000">[]</span> <span style="color: #990000">=</span> <span style="color: #FF0000">{</span> <span style="color: #993399">0</span><span style="color: #990000">.</span>0f<span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">.</span>0f<span style="color: #990000">,</span> <span style="color: #993399">1</span><span style="color: #990000">.</span>0f<span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">.</span>0f<span style="color: #990000">,</span> <span style="color: #993399">1</span><span style="color: #990000">.</span>0f<span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">.</span>0f <span style="color: #FF0000">}</span><span style="color: #990000">;</span>
+
+<span style="font-weight: bold"><span style="color: #000000">alListener3f</span></span><span style="color: #990000">(</span>AL_POSITION<span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">,</span> <span style="color: #993399">1</span><span style="color: #990000">.</span>0f<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+<span style="font-weight: bold"><span style="color: #000000">alListener3f</span></span><span style="color: #990000">(</span>AL_VELOCITY<span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+<span style="font-weight: bold"><span style="color: #000000">alListenerfv</span></span><span style="color: #990000">(</span>AL_ORIENTATION<span style="color: #990000">,</span> listenerOri<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span></tt></pre></div></div>
+<div class="paragraph"><p>Here we FIXME</p></div>
+</div>
+<div class="sect2">
+<h3 id="_source_generation">Source generation</h3>
+<div class="paragraph"><p>In order to playback audio, we must create an audio source objet, this source
+is actually the "origin" of the audio sound. And as such must be defined
+in the audio scene. If you combine audio with graphics, most likely quite a lot
+of your graphics objects will also include an audio source object.</p></div>
+<div class="paragraph"><p>Note that you hold a reference (id) to a source object, you don&#8217;t manipulate
+the source object directly.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #008080">ALuint</span> source<span style="color: #990000">;</span>
+
+
+<span style="font-weight: bold"><span style="color: #000000">alGenSources</span></span><span style="color: #990000">((</span>ALuint<span style="color: #990000">)</span><span style="color: #993399">1</span><span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>source<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+
+<span style="font-weight: bold"><span style="color: #000000">alSourcef</span></span><span style="color: #990000">(</span>source<span style="color: #990000">,</span> AL_PITCH<span style="color: #990000">,</span> <span style="color: #993399">1</span><span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+<span style="font-weight: bold"><span style="color: #000000">alSourcef</span></span><span style="color: #990000">(</span>source<span style="color: #990000">,</span> AL_GAIN<span style="color: #990000">,</span> <span style="color: #993399">1</span><span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+<span style="font-weight: bold"><span style="color: #000000">alSource3f</span></span><span style="color: #990000">(</span>source<span style="color: #990000">,</span> AL_POSITION<span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+<span style="font-weight: bold"><span style="color: #000000">alSource3f</span></span><span style="color: #990000">(</span>source<span style="color: #990000">,</span> AL_VELOCITY<span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">,</span> <span style="color: #993399">0</span><span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+<span style="font-weight: bold"><span style="color: #000000">alSourcei</span></span><span style="color: #990000">(</span>source<span style="color: #990000">,</span> AL_LOOPING<span style="color: #990000">,</span> AL_FALSE<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errros</span></span></tt></pre></div></div>
+<div class="paragraph"><p>Here we generate a single source (thus the 1), and we later on define several of its
+properties:
+- pitch
+- gain
+- position
+- velocity
+- looping</p></div>
+</div>
+<div class="sect2">
+<h3 id="_buffer_generation">Buffer generation</h3>
+<div class="paragraph"><p>The buffer object is the object actually holding the raw audio stream, alone
+a buffer does not do much but occupying memory, so we will see later on what
+to do with it.
+Just like sources, we hold a reference to the buffer object.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #008080">ALuint</span> buffer<span style="color: #990000">;</span>
+
+<span style="font-weight: bold"><span style="color: #000000">alGenBuffers</span></span><span style="color: #990000">((</span>ALuint<span style="color: #990000">)</span><span style="color: #993399">1</span><span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>buffer<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_loading_an_audio_stream_to_a_buffer">Loading an audio stream to a buffer</h3>
+<div class="paragraph"><p>We mentionned earlier in this document that OpenAL manipulates raw audio
+streams and does not care about the audio format, since it is not its scope.</p></div>
+<div class="paragraph"><p>In order to simplify let&#8217;s take the example of a WAV file (*.wav). In order
+to ease the parsing of the WAV format (not that it&#8217;s particularly complex,
+but I am lazy), we can either use alut, or libaudio for instance.</p></div>
+<div class="paragraph"><p>Here is the example with alut:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #008080">ALsizei</span> size<span style="color: #990000">,</span> freq<span style="color: #990000">;</span>
+<span style="color: #008080">ALenum</span> format<span style="color: #990000">;</span>
+<span style="color: #008080">ALvoid</span> <span style="color: #990000">*</span>data<span style="color: #990000">;</span>
+<span style="color: #008080">ALboolean</span> loop <span style="color: #990000">=</span> AL_FALSE<span style="color: #990000">;</span>
+
+<span style="font-weight: bold"><span style="color: #000000">alutLoadWAVFile</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"test.wav"</span><span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>format<span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>data<span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>size<span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>freq<span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>loop<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span></tt></pre></div></div>
+<div class="paragraph"><p>That&#8217;s very simple but it is a deprecated API, so here is the replacement
+using libaudio in case you want to do it the hard way:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #008080">WaveInfo</span> <span style="color: #990000">*</span>wave<span style="color: #990000">;</span>
+<span style="color: #009900">char</span> <span style="color: #990000">*</span>bufferData<span style="color: #990000">;</span>
+<span style="color: #009900">int</span> ret<span style="color: #990000">;</span>
+
+wave <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">WaveOpenFileForReading</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"test.wav"</span><span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(!</span>wave<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">fprintf</span></span><span style="color: #990000">(</span>stderr<span style="color: #990000">,</span> <span style="color: #FF0000">"failed to read wave file</span><span style="color: #CC33CC">\n</span><span style="color: #FF0000">"</span><span style="color: #990000">);</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #990000">-</span><span style="color: #993399">1</span><span style="color: #990000">;</span>
+<span style="color: #FF0000">}</span>
+
+ret <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">WaveSeekFile</span></span><span style="color: #990000">(</span><span style="color: #993399">0</span><span style="color: #990000">,</span> wave<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>ret<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">fprintf</span></span><span style="color: #990000">(</span>stderr<span style="color: #990000">,</span> <span style="color: #FF0000">"failed to seek wave file</span><span style="color: #CC33CC">\n</span><span style="color: #FF0000">"</span><span style="color: #990000">);</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #990000">-</span><span style="color: #993399">1</span><span style="color: #990000">;</span>
+<span style="color: #FF0000">}</span>
+
+bufferData <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">malloc</span></span><span style="color: #990000">(</span>wave<span style="color: #990000">-&gt;</span>dataSize<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(!</span>bufferData<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">perror</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"malloc"</span><span style="color: #990000">);</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #990000">-</span><span style="color: #993399">1</span><span style="color: #990000">;</span>
+<span style="color: #FF0000">}</span>
+
+ret <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">WaveReadFile</span></span><span style="color: #990000">(</span>bufferData<span style="color: #990000">,</span> wave<span style="color: #990000">-&gt;</span>dataSize<span style="color: #990000">,</span> wave<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>ret <span style="color: #990000">!=</span> wave<span style="color: #990000">-&gt;</span>dataSize<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">fprintf</span></span><span style="color: #990000">(</span>stderr<span style="color: #990000">,</span> <span style="color: #FF0000">"short read: %d, want: %d</span><span style="color: #CC33CC">\n</span><span style="color: #FF0000">"</span><span style="color: #990000">,</span> ret<span style="color: #990000">,</span> wave<span style="color: #990000">-&gt;</span>dataSize<span style="color: #990000">);</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #990000">-</span><span style="color: #993399">1</span><span style="color: #990000">;</span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>The trickiest thing with libaudio, is to understand that WaveSeekFile actually
+seeks in the WAVE file starting from the audio offset of the WAVE format.</p></div>
+<div class="paragraph"><p>Now we can finally proceed with loading the raw audio stream into our buffer,
+this is done like this for alut:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">alBufferData</span></span><span style="color: #990000">(</span>buffer<span style="color: #990000">,</span> format<span style="color: #990000">,</span> data<span style="color: #990000">,</span> size<span style="color: #990000">,</span> freq<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span></tt></pre></div></div>
+<div class="paragraph"><p>and like this for libaudio:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">static</span></span> inline <span style="color: #008080">ALenum</span> <span style="font-weight: bold"><span style="color: #000000">to_al_format</span></span><span style="color: #990000">(</span><span style="color: #009900">short</span> channels<span style="color: #990000">,</span> <span style="color: #009900">short</span> samples<span style="color: #990000">)</span>
+<span style="color: #FF0000">{</span>
+        <span style="color: #009900">bool</span> stereo <span style="color: #990000">=</span> <span style="color: #990000">(</span>channels <span style="color: #990000">&gt;</span> <span style="color: #993399">1</span><span style="color: #990000">);</span>
+
+        <span style="font-weight: bold"><span style="color: #0000FF">switch</span></span> <span style="color: #990000">(</span>samples<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">case</span></span> <span style="color: #993399">16</span><span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>stereo<span style="color: #990000">)</span>
+                        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> AL_FORMAT_STEREO16<span style="color: #990000">;</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">else</span></span>
+                        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> AL_FORMAT_MONO16<span style="color: #990000">;</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">case</span></span> <span style="color: #993399">8</span><span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="color: #990000">(</span>stereo<span style="color: #990000">)</span>
+                        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> AL_FORMAT_STEREO8<span style="color: #990000">;</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">else</span></span>
+                        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> AL_FORMAT_MONO8<span style="color: #990000">;</span>
+<span style="font-weight: bold"><span style="color: #008080">        default:</span></span>
+                <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #990000">-</span><span style="color: #993399">1</span><span style="color: #990000">;</span>
+        <span style="color: #FF0000">}</span>
+<span style="color: #FF0000">}</span>
+
+<span style="font-weight: bold"><span style="color: #000000">alBufferData</span></span><span style="color: #990000">(</span>buffer<span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #000000">to_al_format</span></span><span style="color: #990000">(</span>wave<span style="color: #990000">-&gt;</span>channels<span style="color: #990000">,</span> wave<span style="color: #990000">-&gt;</span>bitsPerSample<span style="color: #990000">),</span>
+                bufferData<span style="color: #990000">,</span> wave<span style="color: #990000">-&gt;</span>dataSize<span style="color: #990000">,</span> wave<span style="color: #990000">-&gt;</span>sampleRate<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_binding_a_source_to_a_buffer">Binding a source to a buffer</h3>
+<div class="paragraph"><p>In order to actually output something to the playback device, we need
+to bind the source with its buffer. Obviously you can bind the same buffer
+to several sources and mix different buffers to the same source. Binding
+is done like this:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">alSourcei</span></span><span style="color: #990000">(</span>source<span style="color: #990000">,</span> AL_BUFFER<span style="color: #990000">,</span> buffer<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_playing_the_source">Playing the source</h3>
+<div class="paragraph"><p>We now have everything ready to start playing our source. Do you remember
+that we mentionned the audio rendering to be asynchronous in the beginning?</p></div>
+<div class="paragraph"><p>This means that a call to alSourcePlay(), will start playing the source, and
+return immediately, we don&#8217;t wait until the source is fully played. The reason
+for this is actually very simple, since it is an audio scene, one can perfectly
+want to stack up different sounds playing a different moments.</p></div>
+<div class="paragraph"><p>The underlying implementation of alSourcePlay() in OpenAL Soft actually spawns
+a detached thread as soon as you issue alSourcePlay(), so guess what happens
+in the following code snippet:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">alSourcePlay</span></span><span style="color: #990000">(</span>source<span style="color: #990000">);</span>
+
+<span style="font-style: italic"><span style="color: #9A1900">// cleanup context</span></span>
+<span style="font-weight: bold"><span style="color: #000000">alDeleteSources</span></span><span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>source<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #000000">alDeleteBuffers</span></span><span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>buffer<span style="color: #990000">);</span>
+device <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">alcGetContextsDevice</span></span><span style="color: #990000">(</span>context<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #000000">alcMakeContextCurrent</span></span><span style="color: #990000">(</span>NULL<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #000000">alcDestroyContext</span></span><span style="color: #990000">(</span>context<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #000000">alcCloseDevice</span></span><span style="color: #990000">(</span>device<span style="color: #990000">);</span></tt></pre></div></div>
+<div class="paragraph"><p>you hear &#8230; nothing, because your main thread is cleaning the entire audio
+scene while your detached thread attempts source playback.</p></div>
+<div class="paragraph"><p>Instead, since we are doing this in a main thread for example purposes, you
+must do the following:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">alSourcePlay</span></span><span style="color: #990000">(</span>source<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+
+<span style="font-weight: bold"><span style="color: #000000">alGetSourcei</span></span><span style="color: #990000">(</span>source<span style="color: #990000">,</span> AL_SOURCE_STATE<span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>source_state<span style="color: #990000">);</span>
+<span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">while</span></span> <span style="color: #990000">(</span>source_state <span style="color: #990000">==</span> AL_PLAYING<span style="color: #990000">)</span> <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">alGetSourcei</span></span><span style="color: #990000">(</span>source<span style="color: #990000">,</span> AL_SOURCE_STATE<span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>source_state<span style="color: #990000">);</span>
+        <span style="font-style: italic"><span style="color: #9A1900">// check for errors</span></span>
+<span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="paragraph"><p>Now we make the main thread block until the source finishes playback, actually
+allowing us to finally hear that "test.wav" sound.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_cleaning_up_context_and_resources">Cleaning up context and resources</h3>
+<div class="paragraph"><p>Obviously each and every single object "generated" must be freed, the following
+does this for us:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">alDeleteSources</span></span><span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>source<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #000000">alDeleteBuffers</span></span><span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">,</span> <span style="color: #990000">&amp;</span>buffer<span style="color: #990000">);</span>
+device <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">alcGetContextsDevice</span></span><span style="color: #990000">(</span>context<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #000000">alcMakeContextCurrent</span></span><span style="color: #990000">(</span>NULL<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #000000">alcDestroyContext</span></span><span style="color: #990000">(</span>context<span style="color: #990000">);</span>
+<span style="font-weight: bold"><span style="color: #000000">alcCloseDevice</span></span><span style="color: #990000">(</span>device<span style="color: #990000">);</span></tt></pre></div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The biggest trap you should not fall into, is to remember that your OpenAL
+implementation has to implement some calls as non-blocking for the caller
+which usually means creating threads. Those threads are completely detached
+from the main thread spawning them so the main thread is not blocked waiting
+for them to complete.</p></div>
+<div class="paragraph"><p>In a real world example the asynchronous nature of the OpenAL API is not much
+of the problem because rendering graphics usually means dedicated one or
+several threads of executing for rendering and building the scene.</p></div>
+<div class="paragraph"><p>I hope this example explained has been useful to you!</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2012-04-04 14:08:44 CEST
+</div>
+</div>
+</body>
+</html>
