@@ -17,8 +17,10 @@
 
 #ifdef LIBAUDIO
 #include <audio/wave.h>
+#define BACKEND	"libaudio"
 #else
 #include <AL/alut.h>
+#define BACKEND "alut"
 #endif
 
 static void list_audio_devices(const ALCchar *devices)
@@ -84,6 +86,8 @@ int main(int argc, char **argv)
 	ALboolean loop = AL_FALSE;
 	ALCenum error;
 	ALint source_state;
+
+	fprintf(stdout, "Using " BACKEND " as audio backend\n");
 
 	enumeration = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
 	if (enumeration == AL_FALSE)
