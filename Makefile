@@ -12,5 +12,5 @@ $(APP): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDLIBS)
 
 clean:
-	-rm $(OBJS) $(APP)
+	-rm -f $(OBJS) $(APP)
 
