@@ -1,5 +1,11 @@
 CC?=gcc
-LDLIBS?=-lopenal -lalut
+LDLIBS?=-lopenal
+ifeq ($(LIBAUDIO),1)
+CFLAGS+=-DLIBAUDIO
+LDLIBS+=-laudio
+else
+LDLIBS+=-lalut
+endif
 APP:=openal-example
 OBJS:= $(APP).o
 
