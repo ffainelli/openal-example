@@ -12,12 +12,14 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-#ifdef LIBAUDIO
-#include <audio/wave.h>
-#endif
-
 #include <AL/al.h>
 #include <AL/alc.h>
+
+#ifdef LIBAUDIO
+#include <audio/wave.h>
+#else
+#include <AL/alut.h>
+#endif
 
 static void list_audio_devices(const ALCchar *devices)
 {
